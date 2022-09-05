@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Edit Waypoint</h2>
+<div mat-dialog-content>
+
+  <mat-form-field>
+    <input [(ngModel)]="this.waypoint.name" placeholder="Waypoint Name" matInput >
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select [(ngModel)]="this.waypoint.type" placeholder="Select type" >
+      <mat-option *ngIf="!this.waypointService.getStart() || this.waypointService.getStart() == waypoint" value="start">Start</mat-option>
+      <mat-option value="waypoint">Waypoint</mat-option>
+      <mat-option *ngIf="!this.waypointService.getEnd() || this.waypointService.getEnd() == waypoint" value="end">Destination</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input [(ngModel)]="this.waypoint.position.lat" type="number" placeholder="Latitude" matInput disabled>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input [(ngModel)]="this.waypoint.position.lng" type="number" placeholder="Longitude" matInput disabled>
+  </mat-form-field>
+</div>
+

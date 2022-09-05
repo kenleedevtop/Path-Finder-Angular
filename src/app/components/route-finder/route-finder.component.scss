@@ -1,0 +1,79 @@
+/*
+ * LEFT
+ */
+
+.left {
+  width: 20vw;
+  max-width: 20vw;
+  float: left;
+  position: absolute;
+  background-color: lightgray;
+}
+
+.left .top {
+  height: 90vh;
+  max-height: 90vh;
+  width: 20vw;
+  max-width: 20vw;
+  overflow-y: auto;
+}
+
+.top mat-card {
+  margin: 0.5rem;
+}
+
+.top mat-card p {
+}
+
+.top mat-card p mat-icon {
+}
+
+.top mat-card p button {
+}
+
+.left .bottom {
+  height: 10vh;
+  max-height: 10vh;
+  width: 20vw;
+  max-width: 20vw;
+
+  -webkit-box-shadow: inset 0px 0.25rem 0px 0px primary;
+  -moz-box-shadow: inset 0px 0.25rem 0px 0px primary;
+  box-shadow: inset 0px 0.25rem 0px 0px #2196f3;
+}
+
+.bottom .buttonSection {
+  height: 10vh;
+  min-width: 25%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+ * RIGHT
+ */
+
+.right {
+  max-width: 80vw;
+  float: right;
+}
+
+/*
+ * MISC
+ */
+
+.scroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 0.25rem lightgray;
+  box-shadow: inset 0 0 0.25rem lightgray;
+  background-color: lightgray;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 6px;
+  background-color: lightgray;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #2196f3;
+}

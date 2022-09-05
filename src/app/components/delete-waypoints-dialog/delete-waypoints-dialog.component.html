@@ -1,0 +1,6 @@
+<h2 mat-dialog-title>Delete all waypoints?</h2>
+<div mat-dialog-actions out="row" layout-align="center center">
+  <button mat-raised-button cdkFocusInitial mat-dialog-close> Keep waypoints </button>
+  <button (click)="this.waypointService.clearWaypoints()" color="warn" mat-raised-button mat-dialog-close> Delete
+    waypoints </button>
+</div>

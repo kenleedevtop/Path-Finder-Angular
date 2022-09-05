@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Insert coordinates</h2>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <textarea [(ngModel)]="data" placeholder="latitude, longitude&#013;&#010;latitude, longitude" matInput></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close> Cancel </button>
+  <button [mat-dialog-close]="data" color="warn" mat-raised-button cdkFocusInitial> Add waypoints </button>
+</div>

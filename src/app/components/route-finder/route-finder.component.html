@@ -1,0 +1,109 @@
+<div class="left">
+  <div class="top scroll">
+
+    <mat-card *ngFor="let waypoint of this.waypointService.waypoints; let i = index; let last=last"
+      (click)="this.moveToWaypoint(waypoint)">
+
+      <mat-card-header>
+        <mat-icon mat-card-avatar matBadge="{{i + 1}}" matBadgeColor="primary">pin_drop</mat-icon>
+        <mat-card-title>{{(waypoint.name.length > 19)? (waypoint.name | slice:0:19)+'...':(waypoint.name) ||
+          ((waypoint.position.lat.toString() | slice:0:10) + ', ' + (waypoint.position.lng.toString() | slice:0:10))}}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-actions>
+        <!-- START -->
+        <button *ngIf="waypoint.type == 'start'; else notStart" (click)="waypoint.setWaypoint()"
+          matTooltip="Set as waypoint" matTooltipPosition="below" color="primary" mat-icon-button>
+          <mat-icon>home</mat-icon>
+        </button>
+
+        <ng-template #notStart>
+          <button (click)="waypoint.setStart()" [disabled]="this.waypointService.isStartSet() || waypoint.type == 'end'"
+            matTooltip="Set as starting point" matTooltipPosition="below" mat-icon-button>
+            <mat-icon>home</mat-icon>
+          </button>
+        </ng-template>
+
+        <!-- WAYPOINT -->
+        <button *ngIf="waypoint.type == 'waypoint'; else notWaypoint" (click)="this.moveToWaypoint(waypoint)"
+          matTooltip="Go to waypoint" matTooltipPosition="below" color="primary" mat-icon-button>
+          <mat-icon>place</mat-icon>
+        </button>
+
+        <ng-template #notWaypoint>
+          <button (click)="waypoint.setWaypoint()" [disabled]="waypoint.type == 'waypoint'" matTooltip="Set as waypoint"
+            matTooltipPosition="below" mat-icon-button>
+            <mat-icon>place</mat-icon>
+          </button>
+        </ng-template>
+
+        <!-- END -->
+        <button *ngIf="waypoint.type == 'end'; else notEnd" (click)="waypoint.setWaypoint()"
+          matTooltip="Set as waypoint" matTooltipPosition="below" color="primary" mat-icon-button>
+          <mat-icon>sports_score</mat-icon>
+        </button>
+
+        <ng-template #notEnd>
+          <button (click)="waypoint.setEnd()" [disabled]="this.waypointService.isEndSet() || waypoint.type == 'start'"
+            matTooltip="Set as destination" matTooltipPosition="below" mat-icon-button>
+            <mat-icon>sports_score</mat-icon>
+          </button>
+        </ng-template>
+
+
+
+        <!-- DELETE -->
+        <button (click)="this.waypointService.deleteWaypoint(waypoint)" matTooltip="Delete waypoint"
+          matTooltipPosition="below" color="warn" style="float: right;" mat-icon-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+
+        <!-- EDIT -->
+        <button (click)="this.editWaypoint(waypoint)" matTooltip="Edit waypoint" matTooltipPosition="below"
+          style="float: right;" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+
+  <div class="bottom">
+    <div class="buttonSection">
+      <button (click)="this.clearWaypoints()" matTooltip="Delete all waypoints" matTooltipPosition="above" color="warn"
+        mat-raised-button>Clear</button>
+    </div>
+    <div class="buttonSection">
+      <button (click)="this.importWaypoints()" matTooltip="Import comma seperated coordinates"
+        matTooltipPosition="above" mat-raised-button>Import</button>
+    </div>
+    <div class="buttonSection">
+      <button (click)="this.copyWaypoints()" matTooltip="Copy all waypoints to clipboard" matTooltipPosition="above"
+        mat-raised-button>Copy</button>
+    </div>
+    <div class="buttonSection">
+      <button *ngIf="this.waypointService.waypoints.length <= 27; else tooManyWaypoints"
+        (click)="this.findShortestRoute()"
+        [disabled]="!this.waypointService.isStartSet() || !this.waypointService.isEndSet()"
+        matTooltip="Find the shortest route" matTooltipPosition="above" color="primary" mat-raised-button>Route</button>
+
+      <ng-template #tooManyWaypoints>
+        <button [disabled]="!this.waypointService.isStartSet() || !this.waypointService.isEndSet()"
+          matTooltip="Too many waypoints selected" matTooltipPosition="above" color="primary"
+          mat-raised-button>Route</button>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<div class="right">
+  <google-map (mapClick)="this.addWaypoint($event)" (mapDblclick)="this.addWaypoint($event)" [center]="this.center"
+    [options]="this.options" height="100vh" width="80vw">
+    <map-marker *ngFor="let waypoint of this.waypointService.waypoints" [position]="waypoint.position"
+      [options]="waypoint.markerOptions" [visible]="!this.markersHidden"></map-marker>
+    <map-directions-renderer *ngIf="(directionsResults | async) as directionsResults" [directions]="directionsResults">
+    </map-directions-renderer>
+  </google-map>
+</div>
